@@ -1,0 +1,28 @@
+# Configuração local do OMP para ShopApi.
+# Vale apenas para este repositório — não altera ~/.omp/agent/config.yml.
+# Provisionado a partir de ~/projects/agent-memory em 2026-08-27.
+
+# Os modelos continuam herdados de `~/.omp/agent/config.yml`.
+# O runner local abaixo libera apenas comandos de leitura/execução do projeto.
+
+tools:
+  approvalMode: write # auto-aprova leitura e escrita no workspace; bash confirma
+  approval:
+    edit: allow
+    bash: prompt
+    fetch: allow
+
+bash:
+  patterns:
+    - match: "git status*"
+      approval: allow
+    - match: "git diff*"
+      approval: allow
+    - match: "git log*"
+      approval: allow
+    - match: "dotnet *"
+      approval: allow
+    - match: "dotnet"
+      approval: allow
+    - match: "git show*"
+      approval: allow
