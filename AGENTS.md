@@ -42,20 +42,21 @@ python3 ~/projects/agent-memory/scripts/memory.py load shop-api
 
 - **media** — Ausência de Rotação de Refresh Token no ShopApi `DEB-TEC-004`
 
-### ♻️ Já resolvido em outro projeto (aplica-se aqui)
-
-- Kanban addComment sem verificação de permissão — origem `svelte-app-clean-arch` `DEB-TEC-005`
-- createCard/updateCard/moveCard sem escopo de projeto — origem `svelte-app-clean-arch` `DEB-TEC-006`
-- Proxy Reverso Nginx Perdendo Autenticação: 401 Após Login, Cookie Ausente e Authorization Sumindo no Upstream — origem `null` `ERR-INF-002`
-- SQLite 'database is locked' / SQLITE_BUSY no PocketBase em Container: pb_data Compartilhado, WAL em NFS e Migrações Concorrentes — origem `null` `ERR-INF-001`
-
-> Padrão agnóstico de stack. Antes de aplicar, confira a equivalência em `index-por-sintoma.md` (seção ♻️). Busca: `memory.py solve "<problema>"`.
-
 ### 🏛️ Decisões vigentes
 
 - Orquestração de modelos por carga cognitiva com fallback funcional `DEC-TEC-005`
+- Filtro de Stack no Roteamento Global da Memória, por Tecnologia Discriminante `DEC-TEC-010`
 - Papéis de Usuário (RBAC) e Catálogo Público vs Administrativo `DEC-NEG-003`
 - Arquitetura em 5 Camadas (Clean Architecture) para ShopApi em .NET 8 `DEC-TEC-002`
+
+### ♻️ Já resolvido em outro contexto (aplica-se aqui)
+
+- Kanban addComment sem verificação de permissão — origem `svelte-app-clean-arch` `DEB-TEC-005`
+- createCard/updateCard/moveCard sem escopo de projeto — origem `svelte-app-clean-arch` `DEB-TEC-006`
+- Gerador de Manifesto Sobrescreve Identidade: id e tag Derivados por Heurística Hardcoded… — origem `global` `ERR-INF-004`
+- _… +3 — `memory.py solve "<problema>"`._
+
+> Padrão agnóstico de stack: confira a equivalência em `index-por-sintoma.md` (♻️) antes de aplicar.
 
 ### 🧭 Antes de agir
 
