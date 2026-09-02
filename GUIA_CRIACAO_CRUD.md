@@ -45,16 +45,16 @@ flowchart TD
 
 ## 🗺️ 2. Ordem de Execução
 
-| Etapa | Projeto / Camada | O que fazer |
-| :--- | :--- | :--- |
-| **1** | `ShopApi.Domain` | Criar a Entidade herdando de `BaseEntity` |
-| **2** | `ShopApi.Application` | Criar os DTOs de Entrada/Saída com Validações |
-| **3** | `ShopApi.Application` | Criar a Interface `ICategoryService` |
-| **4** | `ShopApi.Application` | Implementar a classe `CategoryService` |
+| Etapa | Projeto / Camada         | O que fazer                                                                   |
+| :---- | :----------------------- | :---------------------------------------------------------------------------- |
+| **1** | `ShopApi.Domain`         | Criar a Entidade herdando de `BaseEntity`                                     |
+| **2** | `ShopApi.Application`    | Criar os DTOs de Entrada/Saída com Validações                                 |
+| **3** | `ShopApi.Application`    | Criar a Interface `ICategoryService`                                          |
+| **4** | `ShopApi.Application`    | Implementar a classe `CategoryService`                                        |
 | **5** | `ShopApi.Infrastructure` | Adicionar o `DbSet` no `AppDbContext` e registrar no `DependencyInjection.cs` |
-| **6** | `ShopApi.Infrastructure` | Criar e aplicar a Migration no banco de dados |
-| **7** | `ShopApi.Api` | Criar o `CategoriesController` com rotas, segurança e Swagger |
-| **8** | `ShopApi.UnitTests` | Criar testes unitários para validar regras e fluxos do Service |
+| **6** | `ShopApi.Infrastructure` | Criar e aplicar a Migration no banco de dados                                 |
+| **7** | `ShopApi.Api`            | Criar o `CategoriesController` com rotas, segurança e Swagger                 |
+| **8** | `ShopApi.UnitTests`      | Criar testes unitários para validar regras e fluxos do Service                |
 
 ---
 
@@ -63,6 +63,7 @@ flowchart TD
 A camada de Domínio não possui dependência de frameworks externos nem do banco de dados.
 
 ### 1.1 Criar a Entidade `Category.cs`
+
 Crie o arquivo em `ShopApi.Domain/Entities/Category.cs`:
 
 ```csharp
@@ -84,6 +85,7 @@ public class Category : BaseEntity
 ```
 
 > 💡 **Nota:** Se a entidade precisar de exceções específicas, a solução já possui em `ShopApi.Domain/Exceptions/AppExceptions.cs`:
+>
 > - `NotFoundException` (HTTP 404)
 > - `ConflictException` (HTTP 409)
 > - `BadRequestException` (HTTP 400)
@@ -160,6 +162,7 @@ public class CategoryResponseDto
 ```
 
 ### 2.2 Adicionar o contrato na Interface `IApplicationDbContext.cs`
+
 Edite `ShopApi.Application/Interfaces/Common/IApplicationDbContext.cs` e adicione o `DbSet<Category>`:
 
 ```csharp
@@ -167,6 +170,7 @@ DbSet<Category> Categories { get; }
 ```
 
 ### 2.3 Criar a Interface `ICategoryService.cs`
+
 Crie ou adicione em `ShopApi.Application/Interfaces/Services/ServiceInterfaces.cs`:
 
 ```csharp
@@ -185,6 +189,7 @@ public interface ICategoryService
 ```
 
 ### 2.4 Implementar o `CategoryService.cs`
+
 Crie o arquivo em `ShopApi.Application/Services/CategoryService.cs`:
 
 ```csharp
@@ -296,14 +301,17 @@ public class CategoryService : ICategoryService
 ## 🗄️ Passo 3: Camada `Infrastructure` (DbContext, DI e Migrations)
 
 ### 3.1 Adicionar a Tabela no `AppDbContext.cs`
+
 Edite `ShopApi.Infrastructure/Data/AppDbContext.cs`:
 
 1. Adicione a propriedade:
+
 ```csharp
 public DbSet<Category> Categories => Set<Category>();
 ```
 
 2. No método `OnModelCreating`, configure índices e restrições:
+
 ```csharp
 builder.Entity<Category>(entity =>
 {
@@ -315,6 +323,7 @@ builder.Entity<Category>(entity =>
 ```
 
 ### 3.2 Registrar no Contêiner de Injeção de Dependência
+
 Edite `ShopApi.Infrastructure/DependencyInjection.cs`:
 
 ```csharp
@@ -322,6 +331,7 @@ services.AddScoped<ICategoryService, CategoryService>();
 ```
 
 ### 3.3 Criar e Executar a Migration
+
 Abra o terminal na raiz da solução e execute:
 
 ```bash
@@ -506,6 +516,7 @@ public class CategoryServiceTests
 ```
 
 ### Executar os testes
+
 ```bash
 dotnet test
 ```
@@ -516,13 +527,13 @@ dotnet test
 
 Use este resumo sempre que for criar um novo recurso na API:
 
-- [ ] **1. `ShopApi.Domain/Entities/{Entidade}.cs`**: Criar a classe herdando de `BaseEntity`.
-- [ ] **2. `ShopApi.Application/DTOs/{Entidade}/{Entidade}Dtos.cs`**: Criar DTOs `Create`, `Update` e `Response`.
-- [ ] **3. `ShopApi.Application/Interfaces/Common/IApplicationDbContext.cs`**: Adicionar o `DbSet<{Entidade}>`.
-- [ ] **4. `ShopApi.Application/Interfaces/Services/ServiceInterfaces.cs`**: Declarar `I{Entidade}Service`.
-- [ ] **5. `ShopApi.Application/Services/{Entidade}Service.cs`**: Implementar a lógica de negócio com EF Core e Exceptions.
-- [ ] **6. `ShopApi.Infrastructure/Data/AppDbContext.cs`**: Adicionar o `DbSet` e regras no `OnModelCreating`.
-- [ ] **7. `ShopApi.Infrastructure/DependencyInjection.cs`**: Registrar `services.AddScoped<I{Entidade}Service, {Entidade}Service>()`.
-- [ ] **8. Migration**: Executar `dotnet ef migrations add ...` e `dotnet ef database update`.
+- [x] **1. `ShopApi.Domain/Entities/{Entidade}.cs`**: Criar a classe herdando de `BaseEntity`.
+- [x] **2. `ShopApi.Application/DTOs/{Entidade}/{Entidade}Dtos.cs`**: Criar DTOs `Create`, `Update` e `Response`.
+- [x] **3. `ShopApi.Application/Interfaces/Common/IApplicationDbContext.cs`**: Adicionar o `DbSet<{Entidade}>`.
+- [x] **4. `ShopApi.Application/Interfaces/Services/ServiceInterfaces.cs`**: Declarar `I{Entidade}Service`.
+- [x] **5. `ShopApi.Application/Services/{Entidade}Service.cs`**: Implementar a lógica de negócio com EF Core e Exceptions.
+- [x] **6. `ShopApi.Infrastructure/Data/AppDbContext.cs`**: Adicionar o `DbSet` e regras no `OnModelCreating`.
+- [x] **7. `ShopApi.Infrastructure/DependencyInjection.cs`**: Registrar `services.AddScoped<I{Entidade}Service, {Entidade}Service>()`.
+- [x] **8. Migration**: Executar `dotnet ef migrations add ...` e `dotnet ef database update`.
 - [ ] **9. `ShopApi.Api/Controllers/{Entidade}Controller.cs`**: Criar o controller com rotas e atributos de autorização.
 - [ ] **10. `ShopApi.UnitTests/Services/{Entidade}ServiceTests.cs`**: Criar e rodar testes unitários com `dotnet test`.
